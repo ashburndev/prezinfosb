@@ -2,9 +2,9 @@ package ashburncode.prezinfosb;
 
 import org.springframework.data.repository.CrudRepository;  // may want to change this
 
-import ashburncode.prezinfosb.President;
+import ashburncode.prezinfosb.Term;
 
-public interface PresidentRepository
-  extends CrudRepository<President, Long> {
+public interface TermRepository
+  extends CrudRepository<Term, Long> {
 
 }

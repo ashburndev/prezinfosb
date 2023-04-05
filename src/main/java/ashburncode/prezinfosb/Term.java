@@ -16,25 +16,14 @@ import jakarta.persistence.ManyToOne;
 import ashburncode.prezinfosb.President;
 
 @Entity
-public class Election {
+public class Term {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  private Long    winnerPopularVote;
-  private Long    totalPopularVote;
-  private Integer winnerElectoralVote;
-  private Integer totalElectoralVote;
-  private Date    electionDate;
-  private Boolean incumbWonElection;
-
-  // @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  // @JoinColumn(name = "president_id", nullable = false)
-  // @OnDelete(action = OnDeleteAction.CASCADE)
-  // @JsonIgnore
-  // @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-  // private President president;
+  private Date    begDate;
+  private Date    endDate;
 
   @ManyToOne
   private President president;

@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;  // may want to chang
 import ashburncode.prezinfosb.Election;
 
 public interface ElectionRepository
-  extends CrudRepository<Election, String> {
+  extends CrudRepository<Election, Long> {
 
 }

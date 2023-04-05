@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
 import ashburncode.prezinfosb.Election;
+import ashburncode.prezinfosb.Term;
 
 // import jakarta.persistence.Constraints.NotNull;
 // import jakarta.persistence.Constraints.Size;
@@ -30,10 +31,13 @@ public class President {
   private String middleName;
   private String lastName;
   private Date   firstInaugDate;
-  private Date   secondInaugDate;  // problem for FDR, handle later
+  private String firstInaugAddress;
 
   @OneToMany(mappedBy = "president", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Election> elections;
+
+  @OneToMany(mappedBy = "president", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Term> terms;
 
 }
 
