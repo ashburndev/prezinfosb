@@ -23,6 +23,10 @@ import ashburncode.prezinfosb.model.Term;
 @Entity
 public class President {
 
+  public President() {
+    super();
+  }
+  
   public President(String firstName, String middleName, String lastName, String politicalParty) {
     super();
     this.firstName = firstName;
@@ -30,7 +34,7 @@ public class President {
     this.lastName = lastName;
     this.politicalParty = politicalParty;
   }
-
+  
   public President(Long id, String firstName, String middleName, String lastName, String politicalParty,
       Date firstInaugDate, String firstInaugAddress, List<Election> elections, List<Term> terms) {
     super();

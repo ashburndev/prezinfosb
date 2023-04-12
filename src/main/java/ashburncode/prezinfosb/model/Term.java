@@ -3,6 +3,8 @@ package ashburncode.prezinfosb.model;
 import java.util.Date;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +13,10 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Term {
+
+  public Term() {
+    super();
+  }
 
   public Term(Date begDate, Date endDate) {
     super();
@@ -32,6 +38,7 @@ public class Term {
   private Date begDate;
   private Date endDate;
 
+  @JsonIgnore
   @ManyToOne
   private President president;
 

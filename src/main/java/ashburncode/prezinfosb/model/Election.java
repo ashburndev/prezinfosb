@@ -5,6 +5,8 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +15,10 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Election {
+
+  public Election() {
+    super();
+  }
 
   public Election(Date electionDate, Boolean incumbWonElection, Integer winnerElectoralVote, Long winnerPopularVote,
       Integer totalElectoralVote, Long totalPopularVote) {
@@ -26,7 +32,7 @@ public class Election {
   }
 
   public Election(Long id, Date electionDate, Boolean incumbWonElection, Integer winnerElectoralVote,
-      Long winnerPopularVote, Integer totalElectoralVote, Long totalPopularVote, Float percentWinnerEclectoralVote,
+      Long winnerPopularVote, Integer totalElectoralVote, Long totalPopularVote, Float percentWinnerElectoralVote,
       Double percentWinnerPopularVote, BigInteger someBIValue, BigDecimal someBDValue, President president) {
     super();
     this.id = id;
@@ -36,7 +42,7 @@ public class Election {
     this.winnerPopularVote = winnerPopularVote;
     this.totalElectoralVote = totalElectoralVote;
     this.totalPopularVote = totalPopularVote;
-    this.percentWinnerEclectoralVote = percentWinnerEclectoralVote;
+    this.percentWinnerElectoralVote = percentWinnerElectoralVote;
     this.percentWinnerPopularVote = percentWinnerPopularVote;
     this.someBIValue = someBIValue;
     this.someBDValue = someBDValue;
@@ -55,7 +61,7 @@ public class Election {
 
   // the percent values would probably be transient values in real application
   // they are here only to see what the data type in generated MySQL 8 will be
-  private Float percentWinnerEclectoralVote;
+  private Float percentWinnerElectoralVote;
   private Double percentWinnerPopularVote;
 
   // the BigInteger and BigDecimal are here only to see data type in generated
@@ -71,6 +77,7 @@ public class Election {
   // true)
   // private President president;
 
+  @JsonIgnore
   @ManyToOne
   private President president;
 
@@ -130,16 +137,24 @@ public class Election {
     this.totalPopularVote = totalPopularVote;
   }
 
-  public Float getPercentWinnerEclectoralVote() {
-    return percentWinnerEclectoralVote;
+  public Float getPercentWinnerElectoralVote() {
+    // return percentWinnerElectoralVote;
+    if (totalElectoralVote == null || totalElectoralVote == 0L) {
+      return 0.0f;
+    }
+    return (winnerElectoralVote.floatValue()) / (totalElectoralVote.floatValue());
   }
 
-  public void setPercentWinnerEclectoralVote(Float percentWinnerEclectoralVote) {
-    this.percentWinnerEclectoralVote = percentWinnerEclectoralVote;
+  public void setPercentWinnerElectoralVote(Float percentWinnerElectoralVote) {
+    this.percentWinnerElectoralVote = percentWinnerElectoralVote;
   }
 
   public Double getPercentWinnerPopularVote() {
-    return percentWinnerPopularVote;
+    // returnpercentWinnerPopularVote ;
+    if (totalPopularVote == null || totalPopularVote == 0L) {
+      return 0.0d;
+    }
+    return (Double) (winnerPopularVote.doubleValue()) / (Double) (totalPopularVote.doubleValue());
   }
 
   public void setPercentWinnerPopularVote(Double percentWinnerPopularVote) {
@@ -172,7 +187,7 @@ public class Election {
 
   @Override
   public int hashCode() {
-    return Objects.hash(electionDate, id, incumbWonElection, percentWinnerEclectoralVote, percentWinnerPopularVote,
+    return Objects.hash(electionDate, id, incumbWonElection, percentWinnerElectoralVote, percentWinnerPopularVote,
         president, someBDValue, someBIValue, totalElectoralVote, totalPopularVote, winnerElectoralVote,
         winnerPopularVote);
   }
@@ -188,7 +203,7 @@ public class Election {
     Election other = (Election) obj;
     return Objects.equals(electionDate, other.electionDate) && Objects.equals(id, other.id)
         && Objects.equals(incumbWonElection, other.incumbWonElection)
-        && Objects.equals(percentWinnerEclectoralVote, other.percentWinnerEclectoralVote)
+        && Objects.equals(percentWinnerElectoralVote, other.percentWinnerElectoralVote)
         && Objects.equals(percentWinnerPopularVote, other.percentWinnerPopularVote)
         && Objects.equals(president, other.president) && Objects.equals(someBDValue, other.someBDValue)
         && Objects.equals(someBIValue, other.someBIValue)
@@ -203,7 +218,7 @@ public class Election {
     return "Election [id=" + id + ", electionDate=" + electionDate + ", incumbWonElection=" + incumbWonElection
         + ", winnerElectoralVote=" + winnerElectoralVote + ", winnerPopularVote=" + winnerPopularVote
         + ", totalElectoralVote=" + totalElectoralVote + ", totalPopularVote=" + totalPopularVote
-        + ", percentWinnerEclectoralVote=" + percentWinnerEclectoralVote + ", percentWinnerPopularVote="
+        + ", percentWinnerElectoralVote=" + percentWinnerElectoralVote + ", percentWinnerPopularVote="
         + percentWinnerPopularVote + ", someBIValue=" + someBIValue + ", someBDValue=" + someBDValue + ", president="
         + president + "]";
   }
