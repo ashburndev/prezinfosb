@@ -30,7 +30,7 @@ public class PresidentController {
 
   @GetMapping(params = "recent")
   public Iterable<President> recentPresidents() {
-    PageRequest page = PageRequest.of(0, 12, Sort.by("politicalParty").descending());
+    PageRequest page = PageRequest.of(0, 12, Sort.by("firstInaugDate").descending());
     return presidentRepository.findAll(page).getContent();
   }
 
@@ -52,6 +52,14 @@ public class PresidentController {
   @ResponseStatus(HttpStatus.CREATED)
   public President postPresident(@RequestBody President president) {
     return presidentRepository.save(president);
+  }
+
+  @GetMapping("/politicalPary/{politicalPary}")
+  public Iterable<President> presidentsByPolticalParty(@PathVariable("politicalPary") String politicalPary) {
+    // PageRequest page = PageRequest.of(0, 12, Sort.by("firstInaugDate").descending());
+    // return presidentRepository.findAllByPoliticalParty(politicalPary).getContent();
+    // how would I build a PageRequest instance (using URL params) and pass it to the method below?
+    return presidentRepository.findAllByPoliticalParty(politicalPary);
   }
 
 }

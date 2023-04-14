@@ -3,11 +3,13 @@ package ashburncode.prezinfosb.model;
 import java.util.Date;
 import java.util.Objects;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
@@ -33,17 +35,18 @@ public class Term {
   }
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  // @GeneratedValue(generator = "hibernate_sequence")
-  // @GenericGenerator(
-  //   name = "hibernate_sequence",
-  //   strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-  //   parameters = {
-  //     @Parameter(name = "sequence_name", value = "hibernate_sequence"),
-  //     @Parameter(name = "initial_value", value = "1"),
-  //     @Parameter(name = "increment_size", value = "1")
-  //     }
-  // )
+  // @GeneratedValue(strategy = GenerationType.AUTO)
+  // @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(generator = "hibernate_sequence")
+  @GenericGenerator(
+    name = "hibernate_sequence",
+    strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+    parameters = {
+      @Parameter(name = "sequence_name", value = "hibernate_sequence"),
+      @Parameter(name = "initial_value", value = "1"),
+      @Parameter(name = "increment_size", value = "1")
+      }
+  )
   private Long id;
   private Date begDate;
   private Date endDate;
