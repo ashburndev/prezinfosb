@@ -6,10 +6,14 @@ import java.util.Objects;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -20,20 +24,33 @@ import jakarta.persistence.OneToMany;
 
 // @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class President {
 
   public President() {
     super();
+    this.createdAt = new Date();  // I don't think this is the right way to do this ??
   }
-  
+
   public President(String firstName, String middleName, String lastName, String politicalParty) {
     super();
     this.firstName = firstName;
     this.middleName = middleName;
     this.lastName = lastName;
     this.politicalParty = politicalParty;
+    this.createdAt = new Date();  // I don't think this is the right way to do this ??
   }
-  
+
+  public President(String firstName, String middleName, String lastName, String politicalParty, Date firstInaugDate) {
+    super();
+    this.firstName = firstName;
+    this.middleName = middleName;
+    this.lastName = lastName;
+    this.politicalParty = politicalParty;
+    this.firstInaugDate = firstInaugDate;
+    this.createdAt = new Date();  // I don't think this is the right way to do this ??
+  }
+
   public President(Long id, String firstName, String middleName, String lastName, String politicalParty,
       Date firstInaugDate, String firstInaugAddress, List<Election> elections, List<Term> terms) {
     super();
@@ -43,30 +60,43 @@ public class President {
     this.lastName = lastName;
     this.politicalParty = politicalParty;
     this.firstInaugDate = firstInaugDate;
+//    this.creator = creator;
+//    this.modifier = modifier;
+//    this.createdAt = createdAt;
+//    this.modifiedAt = modifiedAt;
     this.firstInaugAddress = firstInaugAddress;
     this.elections = elections;
     this.terms = terms;
+    this.createdAt = new Date();  // I don't think this is the right way to do this ??
   }
 
   @Id
   // @GeneratedValue(strategy = GenerationType.AUTO)
   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  // @GeneratedValue(strategy = GenerationType.TABLE)
+  // @GeneratedValue(strategy = GenerationType.UUID)
   @GeneratedValue(generator = "hibernate_sequence")
-  @GenericGenerator(
-    name = "hibernate_sequence",
-    strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-    parameters = {
-      @Parameter(name = "sequence_name", value = "hibernate_sequence"),
-      @Parameter(name = "initial_value", value = "1"),
-      @Parameter(name = "increment_size", value = "1")
-      }
-  )
+  @GenericGenerator(name = "hibernate_sequence", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator", parameters = {
+      @Parameter(name = "sequence_name", value = "hibernate_sequence"), @Parameter(name = "initial_value", value = "1"),
+      @Parameter(name = "increment_size", value = "1") })
   private Long id;
   private String firstName;
   private String middleName;
   private String lastName;
   private String politicalParty;
   private Date firstInaugDate;
+
+  // https://www.baeldung.com/spring-data-annotations
+  //  @CreatedBy
+  //  User creator;
+  //  @LastModifiedBy
+  //  User modifier;
+  @Column(name = "created_at", nullable = false, updatable = false)
+  @CreatedDate
+  Date createdAt;
+  @LastModifiedDate
+  Date modifiedAt;
 
   // @Size(max = 4000)
   // @Length(max = 4000)
@@ -128,6 +158,38 @@ public class President {
     this.firstInaugDate = firstInaugDate;
   }
 
+//  public User getCreator() {
+//    return creator;
+//  }
+//
+//  public void setCreator(User creator) {
+//    this.creator = creator;
+//  }
+//
+//  public User getModifier() {
+//    return modifier;
+//  }
+//
+//  public void setModifier(User modifier) {
+//    this.modifier = modifier;
+//  }
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Date getModifiedAt() {
+    return modifiedAt;
+  }
+
+  public void setModifiedAt(Date modifiedAt) {
+    this.modifiedAt = modifiedAt;
+  }
+
   public String getFirstInaugAddress() {
     return firstInaugAddress;
   }
@@ -154,8 +216,7 @@ public class President {
 
   @Override
   public int hashCode() {
-    return Objects.hash(elections, firstInaugAddress, firstInaugDate, firstName, id, lastName, middleName,
-        politicalParty, terms);
+    return Objects.hash(firstInaugAddress, firstInaugDate, firstName, lastName, middleName, politicalParty);
   }
 
   @Override
@@ -167,18 +228,17 @@ public class President {
     if (getClass() != obj.getClass())
       return false;
     President other = (President) obj;
-    return Objects.equals(elections, other.elections) && Objects.equals(firstInaugAddress, other.firstInaugAddress)
+    return Objects.equals(firstInaugAddress, other.firstInaugAddress)
         && Objects.equals(firstInaugDate, other.firstInaugDate) && Objects.equals(firstName, other.firstName)
-        && Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
-        && Objects.equals(middleName, other.middleName) && Objects.equals(politicalParty, other.politicalParty)
-        && Objects.equals(terms, other.terms);
+        && Objects.equals(lastName, other.lastName) && Objects.equals(middleName, other.middleName)
+        && Objects.equals(politicalParty, other.politicalParty);
   }
 
   @Override
   public String toString() {
     return "President [id=" + id + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName
-        + ", politicalParty=" + politicalParty + ", firstInaugDate=" + firstInaugDate + ", firstInaugAddress="
-        + firstInaugAddress + ", elections=" + elections + ", terms=" + terms + "]";
+        + ", politicalParty=" + politicalParty + ", firstInaugDate=" + firstInaugDate + ", createdAt=" + createdAt
+        + ", modifiedAt=" + modifiedAt + "]";
   }
 
 }

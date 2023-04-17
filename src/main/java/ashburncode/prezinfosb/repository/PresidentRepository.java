@@ -2,6 +2,9 @@ package ashburncode.prezinfosb.repository;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
+import org.springframework.data.domain.Pageable;
+
 // import org.springframework.data.repository.CrudRepository;  // may want to change this
 // import org.springframework.data.repository.PagingAndSortingRepository;
 // import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +21,10 @@ import ashburncode.prezinfosb.model.President;
 
 public interface PresidentRepository extends JpaRepository<President, Long> {
 
-  // how would I pass a PageRequest instance to the method below?
   List<President> findAllByPoliticalParty(String politicalParty);
-
+  
+  List<President> findAllByPoliticalParty(String politicalParty, Pageable pageable);
+  
+  // List<President> findAllByPoliticalParty(String politicalParty, Sort sort);
+  
 }
