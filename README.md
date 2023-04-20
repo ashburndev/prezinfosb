@@ -28,12 +28,12 @@ mysql> show tables;
 +--------------------+
 6 rows in set (0.00 sec)
 
-mysql> 
+mysql>
 ```
 
 ## @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-[springboot data jpa mysql generationtype identity](/doc/springboot-data-jpa-mysql-generationtyp-identity.md)
+[springboot data jpa mysql generationtype identity](/doc/springboot-data-jpa-mysql-generationtype-identity.md)
 
 ```
 mysql> show tables;
@@ -53,17 +53,60 @@ mysql>
 
 [springboot data jpa mysql generationtype sequence](/doc/springboot-data-jpa-mysql-generationtype-sequence.md)
 
+```
+mysql> show tables;
++--------------------+
+| Tables_in_prezdbsb |
++--------------------+
+| election           |
+| election_seq       |
+| president          |
+| president_seq      |
+| term               |
+| term_seq           |
++--------------------+
+6 rows in set (0.00 sec)
 
-
+mysql>
+```
 
 ## @GeneratedValue(strategy = GenerationType.TABLE)
 
 [springboot data jpa mysql generationtype table](/doc/springboot-data-jpa-mysql-generationtype-table.md)
 
+```
+mysql> show tables;
++---------------------+
+| Tables_in_prezdbsb  |
++---------------------+
+| election            |
+| hibernate_sequences |
+| president           |
+| term                |
++---------------------+
+4 rows in set (0.00 sec)
 
-
+mysql>
+```
 
 ## @GeneratedValue(strategy = GenerationType.UUID)
 
 [springboot data jpa mysql generationtype uuid](/doc/springboot-data-jpa-mysql-generationtype-uuid.md)
+
+```
+mysql> use prezdbsb;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> 
+```
+
+## @GenericGenerator(name = "hibernate_sequence", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+
+[springboot data jpa mysql genericgenerator uuid](/doc/springboot-data-jpa-mysql-genericgenerator.md)
+
+```
+
+```
 

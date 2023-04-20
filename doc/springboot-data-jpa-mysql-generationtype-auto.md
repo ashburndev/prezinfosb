@@ -9,9 +9,26 @@ private Long id;
 ```
 
 ```
+use prezdbsb;
+show tables;
+desc president;
+desc election;
+desc term;
+desc president_seq;
+desc election_seq;
+desc term_seq;
+select id, created_at, first_name, last_name, middle_name, political_party from president;
+select id, created_at, president_id, election_date, incumb_won_election from election;
+select id, created_at, president_id, beg_date, end_date from term;
+select * from president_seq;
+select * from election_seq;
+select * from term_seq;
+```
+
+```
+mysql> 
 mysql> use prezdbsb;
 Database changed
-mysql> 
 mysql> show tables;
 +--------------------+
 | Tables_in_prezdbsb |
@@ -25,7 +42,6 @@ mysql> show tables;
 +--------------------+
 6 rows in set (0.00 sec)
 
-mysql> 
 mysql> desc president;
 +---------------------+--------------+------+-----+---------+-------+
 | Field               | Type         | Null | Key | Default | Extra |
@@ -41,14 +57,6 @@ mysql> desc president;
 | political_party     | varchar(255) | YES  |     | NULL    |       |
 +---------------------+--------------+------+-----+---------+-------+
 9 rows in set (0.00 sec)
-
-mysql> desc president_seq;
-+----------+--------+------+-----+---------+-------+
-| Field    | Type   | Null | Key | Default | Extra |
-+----------+--------+------+-----+---------+-------+
-| next_val | bigint | YES  |     | NULL    |       |
-+----------+--------+------+-----+---------+-------+
-1 row in set (0.00 sec)
 
 mysql> desc election;
 +-------------------------------+---------------+------+-----+---------+-------+
@@ -72,15 +80,7 @@ mysql> desc election;
 | zzz_short_value               | smallint      | YES  |     | NULL    |       |
 | president_id                  | bigint        | YES  | MUL | NULL    |       |
 +-------------------------------+---------------+------+-----+---------+-------+
-17 rows in set (0.01 sec)
-
-mysql> desc election_seq;
-+----------+--------+------+-----+---------+-------+
-| Field    | Type   | Null | Key | Default | Extra |
-+----------+--------+------+-----+---------+-------+
-| next_val | bigint | YES  |     | NULL    |       |
-+----------+--------+------+-----+---------+-------+
-1 row in set (0.00 sec)
+17 rows in set (0.00 sec)
 
 mysql> desc term;
 +--------------+-------------+------+-----+---------+-------+
@@ -95,6 +95,22 @@ mysql> desc term;
 +--------------+-------------+------+-----+---------+-------+
 6 rows in set (0.00 sec)
 
+mysql> desc president_seq;
++----------+--------+------+-----+---------+-------+
+| Field    | Type   | Null | Key | Default | Extra |
++----------+--------+------+-----+---------+-------+
+| next_val | bigint | YES  |     | NULL    |       |
++----------+--------+------+-----+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> desc election_seq;
++----------+--------+------+-----+---------+-------+
+| Field    | Type   | Null | Key | Default | Extra |
++----------+--------+------+-----+---------+-------+
+| next_val | bigint | YES  |     | NULL    |       |
++----------+--------+------+-----+---------+-------+
+1 row in set (0.01 sec)
+
 mysql> desc term_seq;
 +----------+--------+------+-----+---------+-------+
 | Field    | Type   | Null | Key | Default | Extra |
@@ -103,84 +119,99 @@ mysql> desc term_seq;
 +----------+--------+------+-----+---------+-------+
 1 row in set (0.00 sec)
 
-mysql> select * from president;
-+----+----------------------------+---------------------+------------------+------------+------------+-------------+-------------+-----------------------+
-| id | created_at                 | first_inaug_address | first_inaug_date | first_name | last_name  | middle_name | modified_at | political_party       |
-+----+----------------------------+---------------------+------------------+------------+------------+-------------+-------------+-----------------------+
-|  1 | 2023-04-17 07:42:51.776000 | NULL                | NULL             | George     | Washington |             | NULL        | Unaffiliated          |
-|  2 | 2023-04-17 07:42:51.813000 | NULL                | NULL             | John       | Adams      |             | NULL        | Federalist            |
-|  3 | 2023-04-17 07:42:51.820000 | NULL                | NULL             | Thomas     | Jefferson  |             | NULL        | Democratic-Republican |
-|  4 | 2023-04-17 07:42:51.822000 | NULL                | NULL             | James      | Madison    |             | NULL        | Democratic-Republican |
-|  5 | 2023-04-17 07:42:51.825000 | NULL                | NULL             | James      | Monroe     |             | NULL        | Democratic-Republican |
-|  6 | 2023-04-17 07:42:51.827000 | NULL                | NULL             | John       | Adams      | Quincy      | NULL        | Democratic-Republican |
-|  7 | 2023-04-17 07:42:51.830000 | NULL                | NULL             | Andrew     | Jackson    |             | NULL        | Democratic            |
-|  8 | 2023-04-17 07:42:51.833000 | NULL                | NULL             | Martin     | Van Buren  |             | NULL        | Democratic            |
-|  9 | 2023-04-17 07:42:51.835000 | NULL                | NULL             | William    | Harrison   | Henry       | NULL        | Whig                  |
-| 10 | 2023-04-17 07:42:51.838000 | NULL                | NULL             | John       | Tyler      |             | NULL        | Whig                  |
-| 11 | 2023-04-17 07:42:51.840000 | NULL                | NULL             | James      | Polk       | K           | NULL        | Democratic            |
-| 12 | 2023-04-17 07:42:51.842000 | NULL                | NULL             | Zachary    | Taylor     |             | NULL        | Whig                  |
-| 13 | 2023-04-17 07:42:51.845000 | NULL                | NULL             | Millard    | Fillmore   |             | NULL        | Whig                  |
-| 14 | 2023-04-17 07:42:51.847000 | NULL                | NULL             | Franklin   | Pierce     |             | NULL        | Democratic            |
-| 15 | 2023-04-17 07:42:51.850000 | NULL                | NULL             | James      | Buchanan   |             | NULL        | Democratic            |
-| 16 | 2023-04-17 07:42:51.852000 | NULL                | NULL             | Abraham    | Lincoln    |             | NULL        | Republican            |
-| 17 | 2023-04-17 07:42:51.855000 | NULL                | NULL             | Andrew     | Johnson    |             | NULL        | Democratic            |
-| 18 | 2023-04-17 07:42:51.858000 | NULL                | NULL             | Ulysses    | Grant      | S.          | NULL        | Republican            |
-| 19 | 2023-04-17 07:42:51.861000 | NULL                | NULL             | Rutherford | Hayes      | B.          | NULL        | Republican            |
-| 20 | 2023-04-17 07:42:51.863000 | NULL                | NULL             | James      | Garfield   | A.          | NULL        | Republican            |
-| 21 | 2023-04-17 07:42:51.866000 | NULL                | NULL             | Chester    | Arthur     | A.          | NULL        | Republican            |
-| 22 | 2023-04-17 07:42:51.868000 | NULL                | NULL             | Grover     | Cleveland  |             | NULL        | Democratic            |
-| 23 | 2023-04-17 07:42:51.870000 | NULL                | NULL             | Benjamin   | Harrison   |             | NULL        | Republican            |
-| 24 | 2023-04-17 07:42:51.873000 | NULL                | NULL             | William    | McKinley   |             | NULL        | Republican            |
-| 25 | 2023-04-17 07:42:51.875000 | NULL                | NULL             | Theodore   | Roosevelt  |             | NULL        | Republican            |
-| 26 | 2023-04-17 07:42:51.877000 | NULL                | NULL             | William    | Taft       | Howard      | NULL        | Republican            |
-| 27 | 2023-04-17 07:42:51.879000 | NULL                | NULL             | Woodrow    | Wilson     |             | NULL        | Democratic            |
-| 28 | 2023-04-17 07:42:51.882000 | NULL                | NULL             | Warren     | Harding    | G.          | NULL        | Republican            |
-| 29 | 2023-04-17 07:42:51.886000 | NULL                | NULL             | Calvin     | Coolidge   |             | NULL        | Republican            |
-| 30 | 2023-04-17 07:42:51.891000 | NULL                | NULL             | Herbert    | Hoover     |             | NULL        | Republican            |
-| 31 | 2023-04-17 07:42:51.895000 | NULL                | NULL             | Franklin   | Roosevelt  | D.          | NULL        | Democratic            |
-| 32 | 2023-04-17 07:42:51.898000 | NULL                | NULL             | Harry      | Truman     | S.          | NULL        | Democratic            |
-| 33 | 2023-04-17 07:42:51.902000 | NULL                | NULL             | Dwight     | Eisenhower | D.          | NULL        | Republican            |
-| 34 | 2023-04-17 07:42:51.906000 | NULL                | NULL             | John       | Kennedy    | F.          | NULL        | Democratic            |
-| 35 | 2023-04-17 07:42:51.909000 | NULL                | NULL             | Lyndon     | Johnson    | B.          | NULL        | Democratic            |
-| 36 | 2023-04-17 07:42:51.912000 | NULL                | NULL             | Richard    | Nixon      |             | NULL        | Republican            |
-| 37 | 2023-04-17 07:42:51.919000 | NULL                | NULL             | Gerald     | Ford       |             | NULL        | Republican            |
-| 38 | 2023-04-17 07:42:51.922000 | NULL                | NULL             | Jimmy      | Carter     |             | NULL        | Democratic            |
-| 39 | 2023-04-17 07:42:51.924000 | NULL                | NULL             | Ronald     | Reagan     |             | NULL        | Republican            |
-| 40 | 2023-04-17 07:42:51.954000 | NULL                | NULL             | George     | Bush       | H. W.       | NULL        | Republican            |
-| 41 | 2023-04-17 07:42:51.956000 | NULL                | NULL             | Bill       | Clinton    |             | NULL        | Democratic            |
-| 42 | 2023-04-17 07:42:51.958000 | NULL                | NULL             | George     | Bush       | W.          | NULL        | Republican            |
-| 43 | 2023-04-17 07:42:51.961000 | NULL                | NULL             | Barack     | Obama      |             | NULL        | Democratic            |
-| 44 | 2023-04-17 07:42:51.963000 | NULL                | NULL             | Donald     | Trump      |             | NULL        | Republican            |
-| 45 | 2023-04-17 07:42:51.965000 | NULL                | NULL             | Joe        | Biden      |             | NULL        | Democratic            |
-+----+----------------------------+---------------------+------------------+------------+------------+-------------+-------------+-----------------------+
+mysql> select id, created_at, first_name, last_name, middle_name, political_party from president;
++----+----------------------------+------------+------------+-------------+-----------------------+
+| id | created_at                 | first_name | last_name  | middle_name | political_party       |
++----+----------------------------+------------+------------+-------------+-----------------------+
+|  1 | 2023-04-20 07:02:20.553000 | George     | Washington |             | Unaffiliated          |
+|  2 | 2023-04-20 07:02:20.575000 | John       | Adams      |             | Federalist            |
+|  3 | 2023-04-20 07:02:20.581000 | Thomas     | Jefferson  |             | Democratic-Republican |
+|  4 | 2023-04-20 07:02:20.583000 | James      | Madison    |             | Democratic-Republican |
+|  5 | 2023-04-20 07:02:20.587000 | James      | Monroe     |             | Democratic-Republican |
+|  6 | 2023-04-20 07:02:20.589000 | John       | Adams      | Quincy      | Democratic-Republican |
+|  7 | 2023-04-20 07:02:20.592000 | Andrew     | Jackson    |             | Democratic            |
+|  8 | 2023-04-20 07:02:20.595000 | Martin     | Van Buren  |             | Democratic            |
+|  9 | 2023-04-20 07:02:20.597000 | William    | Harrison   | Henry       | Whig                  |
+| 10 | 2023-04-20 07:02:20.599000 | John       | Tyler      |             | Whig                  |
+| 11 | 2023-04-20 07:02:20.602000 | James      | Polk       | K           | Democratic            |
+| 12 | 2023-04-20 07:02:20.605000 | Zachary    | Taylor     |             | Whig                  |
+| 13 | 2023-04-20 07:02:20.607000 | Millard    | Fillmore   |             | Whig                  |
+| 14 | 2023-04-20 07:02:20.610000 | Franklin   | Pierce     |             | Democratic            |
+| 15 | 2023-04-20 07:02:20.613000 | James      | Buchanan   |             | Democratic            |
+| 16 | 2023-04-20 07:02:20.617000 | Abraham    | Lincoln    |             | Republican            |
+| 17 | 2023-04-20 07:02:20.621000 | Andrew     | Johnson    |             | Democratic            |
+| 18 | 2023-04-20 07:02:20.624000 | Ulysses    | Grant      | S.          | Republican            |
+| 19 | 2023-04-20 07:02:20.627000 | Rutherford | Hayes      | B.          | Republican            |
+| 20 | 2023-04-20 07:02:20.629000 | James      | Garfield   | A.          | Republican            |
+| 21 | 2023-04-20 07:02:20.632000 | Chester    | Arthur     | A.          | Republican            |
+| 22 | 2023-04-20 07:02:20.634000 | Grover     | Cleveland  |             | Democratic            |
+| 23 | 2023-04-20 07:02:20.637000 | Benjamin   | Harrison   |             | Republican            |
+| 24 | 2023-04-20 07:02:20.639000 | William    | McKinley   |             | Republican            |
+| 25 | 2023-04-20 07:02:20.642000 | Theodore   | Roosevelt  |             | Republican            |
+| 26 | 2023-04-20 07:02:20.645000 | William    | Taft       | Howard      | Republican            |
+| 27 | 2023-04-20 07:02:20.647000 | Woodrow    | Wilson     |             | Democratic            |
+| 28 | 2023-04-20 07:02:20.650000 | Warren     | Harding    | G.          | Republican            |
+| 29 | 2023-04-20 07:02:20.652000 | Calvin     | Coolidge   |             | Republican            |
+| 30 | 2023-04-20 07:02:20.655000 | Herbert    | Hoover     |             | Republican            |
+| 31 | 2023-04-20 07:02:20.657000 | Franklin   | Roosevelt  | D.          | Democratic            |
+| 32 | 2023-04-20 07:02:20.660000 | Harry      | Truman     | S.          | Democratic            |
+| 33 | 2023-04-20 07:02:20.662000 | Dwight     | Eisenhower | D.          | Republican            |
+| 34 | 2023-04-20 07:02:20.665000 | John       | Kennedy    | F.          | Democratic            |
+| 35 | 2023-04-20 07:02:20.668000 | Lyndon     | Johnson    | B.          | Democratic            |
+| 36 | 2023-04-20 07:02:20.670000 | Richard    | Nixon      |             | Republican            |
+| 37 | 2023-04-20 07:02:20.673000 | Gerald     | Ford       |             | Republican            |
+| 38 | 2023-04-20 07:02:20.675000 | Jimmy      | Carter     |             | Democratic            |
+| 39 | 2023-04-20 07:02:20.678000 | Ronald     | Reagan     |             | Republican            |
+| 40 | 2023-04-20 07:02:20.699000 | George     | Bush       | H. W.       | Republican            |
+| 41 | 2023-04-20 07:02:20.701000 | Bill       | Clinton    |             | Democratic            |
+| 42 | 2023-04-20 07:02:20.704000 | George     | Bush       | W.          | Republican            |
+| 43 | 2023-04-20 07:02:20.706000 | Barack     | Obama      |             | Democratic            |
+| 44 | 2023-04-20 07:02:20.709000 | Donald     | Trump      |             | Republican            |
+| 45 | 2023-04-20 07:02:20.711000 | Joe        | Biden      |             | Democratic            |
++----+----------------------------+------------+------------+-------------+-----------------------+
 45 rows in set (0.00 sec)
 
-mysql> select * from term;
-+----+----------------------------+----------------------------+----------------------------+-------------+--------------+
-| id | beg_date                   | created_at                 | end_date                   | modified_at | president_id |
-+----+----------------------------+----------------------------+----------------------------+-------------+--------------+
-|  1 | 1981-01-20 00:00:00.000000 | 2023-04-17 07:42:51.925000 | 1985-01-20 00:00:00.000000 | NULL        |           39 |
-|  2 | 1985-01-20 00:00:00.000000 | 2023-04-17 07:42:51.925000 | 1989-01-20 00:00:00.000000 | NULL        |           39 |
-+----+----------------------------+----------------------------+----------------------------+-------------+--------------+
+mysql> select id, created_at, president_id, election_date, incumb_won_election from election;
++----+----------------------------+--------------+----------------------------+------------------------------------------+
+| id | created_at                 | president_id | election_date              | incumb_won_election                      |
++----+----------------------------+--------------+----------------------------+------------------------------------------+
+|  1 | 2023-04-20 07:02:20.678000 |           39 | 1980-11-04 00:00:00.000000 | 0x00                                     |
+|  2 | 2023-04-20 07:02:20.678000 |           39 | 1984-11-06 00:00:00.000000 | 0x01                                     |
++----+----------------------------+--------------+----------------------------+------------------------------------------+
 2 rows in set (0.00 sec)
 
-mysql> select * from term;
-+----+----------------------------+----------------------------+----------------------------+-------------+--------------+
-| id | beg_date                   | created_at                 | end_date                   | modified_at | president_id |
-+----+----------------------------+----------------------------+----------------------------+-------------+--------------+
-|  1 | 1981-01-20 00:00:00.000000 | 2023-04-17 07:42:51.925000 | 1985-01-20 00:00:00.000000 | NULL        |           39 |
-|  2 | 1985-01-20 00:00:00.000000 | 2023-04-17 07:42:51.925000 | 1989-01-20 00:00:00.000000 | NULL        |           39 |
-+----+----------------------------+----------------------------+----------------------------+-------------+--------------+
+mysql> select id, created_at, president_id, beg_date, end_date from term;
++----+----------------------------+--------------+----------------------------+----------------------------+
+| id | created_at                 | president_id | beg_date                   | end_date                   |
++----+----------------------------+--------------+----------------------------+----------------------------+
+|  1 | 2023-04-20 07:02:20.678000 |           39 | 1981-01-20 00:00:00.000000 | 1985-01-20 00:00:00.000000 |
+|  2 | 2023-04-20 07:02:20.678000 |           39 | 1985-01-20 00:00:00.000000 | 1989-01-20 00:00:00.000000 |
++----+----------------------------+--------------+----------------------------+----------------------------+
 2 rows in set (0.00 sec)
 
-mysql> select id, president_id, created_at, incumb_won_election, election_date, winner_electoral_vote, winner_popular_vote, total_popular_vote from election;
-+----+--------------+----------------------------+------------------------------------------+----------------------------+-----------------------+---------------------+--------------------+
-| id | president_id | created_at                 | incumb_won_election                      | election_date              | winner_electoral_vote | winner_popular_vote | total_popular_vote |
-+----+--------------+----------------------------+------------------------------------------+----------------------------+-----------------------+---------------------+--------------------+
-|  1 |           39 | 2023-04-17 07:42:51.925000 | 0x00                                     | 1980-11-04 00:00:00.000000 |                   489 |            43903230 |           86509678 |
-|  2 |           39 | 2023-04-17 07:42:51.925000 | 0x01                                     | 1984-11-06 00:00:00.000000 |                   525 |            54455472 |           92653233 |
-+----+--------------+----------------------------+------------------------------------------+----------------------------+-----------------------+---------------------+--------------------+
-2 rows in set (0.00 sec)
+mysql> select * from president_seq;
++----------+
+| next_val |
++----------+
+|      101 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select * from election_seq;
++----------+
+| next_val |
++----------+
+|      101 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select * from term_seq;
++----------+
+| next_val |
++----------+
+|      101 |
++----------+
+1 row in set (0.00 sec)
 
 mysql> 
 ```
